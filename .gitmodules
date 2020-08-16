@@ -1,0 +1,3 @@
+[submodule "Libraries/haxe-format-tiled"]
+	path = Libraries/haxe-format-tiled
+	url = https://github.com/Yanrishatum/haxe-format-tiled.git
