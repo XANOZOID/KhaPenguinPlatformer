@@ -1,0 +1,44 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "C:/Users/Xano/Documents/projects/haxe/PenguinPlatformer/Maps/map1.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 814,
+                "y": 432
+            }
+        },
+        "C:\\Users\\Xano\\Documents\\projects\\OGA\\Kenney\\Roguelike pack\\Map\\sample_indoor.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 420.6666666666666,
+                "y": 270.6666666666667
+            }
+        }
+    },
+    "map.fixedSize": false,
+    "map.height": 100,
+    "map.orientation": 1,
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 100,
+    "openFiles": [
+    ],
+    "project": "penguin.tiled-project",
+    "recentFiles": [
+    ],
+    "tileset.embedInMap": false,
+    "tileset.margin": 1,
+    "tileset.spacing": 1,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.transparentColor": "#ff00ff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": false
+}
