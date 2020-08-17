@@ -51,13 +51,14 @@ class TileLayerRenderer {
 	}
 
 	inline function drawTile(g2:Graphics, chunk:TmxChunk, tile:TmxTile, tileX:Int, tileY:Int) {
-		final shift = 19;
-		final shiftX = (tile.gid %  19) - 1;
-		final shiftY:Int = Math.floor(tile.gid / shift);
-		if (tile.gid == 18) {
-			trace(shiftX);
-			trace(shiftY);
-		}
+		// final shift = 19;s
+		final id = tile.gid;
+		final shiftX = ((id-1) %  20);
+		final shiftY:Int = Math.floor(id / 20);
+		// if (tile.gid == 18) {
+		// 	trace(shiftX);
+		// 	trace(shiftY);
+		// }
 		g2.drawSubImage(texture,
 			(chunk.x + tileX) * 16,
 			(chunk.y + tileY) * 16,
@@ -321,6 +322,7 @@ class Main {
 		if (cached != null) return cached;
 		var tsxData = switch(name) {
 			case "tileset.tsx":Assets.blobs.Maps_tileset_tsx.toString();
+			case "tset2.tsx":Assets.blobs.Maps_tset2_tsx.toString();
 			default: "";
 		};
 		cached = r.readTSX(Xml.parse(tsxData));

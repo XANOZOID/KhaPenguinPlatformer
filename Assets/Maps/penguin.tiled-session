@@ -1,8 +1,22 @@
 {
-    "activeFile": "",
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map2.tmx",
     "expandedProjectPaths": [
+        "templates",
+        "."
     ],
     "fileStates": {
+        "C:/Users/Xano/Documents/projects/OGA/Kenney/Roguelike pack/Map/sample_indoor.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 420.6666666666666,
+                "y": 270.6666666666667
+            }
+        },
         "C:/Users/Xano/Documents/projects/haxe/PenguinPlatformer/Maps/map1.tmx": {
             "scale": 0.25,
             "selectedLayer": 2,
@@ -11,28 +25,51 @@
                 "y": 432
             }
         },
-        "C:\\Users\\Xano\\Documents\\projects\\OGA\\Kenney\\Roguelike pack\\Map\\sample_indoor.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 1,
+        "map1.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 420.6666666666666,
-                "y": 270.6666666666667
+                "x": 767.6666666666666,
+                "y": 127.49999999999999
             }
+        },
+        "map2.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -680,
+                "y": -141.5
+            }
+        },
+        "tileset.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "tset2.tsx": {
+            "scaleInDock": 1
         }
     },
     "map.fixedSize": false,
     "map.height": 100,
+    "map.lastUsedFormat": "tmx",
     "map.orientation": 1,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 100,
     "openFiles": [
+        "map1.tmx",
+        "tileset.tsx",
+        "map2.tmx"
     ],
     "project": "penguin.tiled-project",
     "recentFiles": [
+        "map1.tmx",
+        "tileset.tsx",
+        "map2.tmx"
     ],
     "tileset.embedInMap": false,
-    "tileset.margin": 1,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
     "tileset.spacing": 1,
     "tileset.tileSize": {
         "height": 16,
