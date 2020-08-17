@@ -113,6 +113,28 @@ import format.tmx.Reader;
 		if (currentFrame > frames) currentFrame -= frames;
 	}
 }
+
+class Sprites {
+	static public function playerStill():Sprite return {
+		texture: Assets.images.Maps_monochrome_tilemap_transparent,
+		frameX: 0, frameY: 256,
+		frameW: 16, frameH: 16,
+		originX: 0.5, originY: 0.75,
+	};
+
+	static public function playerWalk(speed:Float):Animation return {
+		texture: Assets.images.Maps_monochrome_tilemap_transparent,
+		frameX: 16 + 1, frameY: 256,
+		frameW: 16, frameH: 16,
+		originX: 0.5, originY: 0.75,
+		separationY: 1,
+		separationX: 1,
+		frames:  2,
+		columns: 2,
+		playSpeed: speed
+	};
+
+}
 class Main {
 	static var logo = ["1 1 1 1 111", "11  111 111", "1 1 1 1 1 1"];
 
