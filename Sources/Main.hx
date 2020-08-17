@@ -174,10 +174,122 @@ class Sprites {
 	};
 
 }
+
+class Player {
+	static final gravity = 0.3;
+	static final jumpSpeed = -4.5;
+	static final runSpeed = 2.5;
+	static final keyJump = KeyCode.Space;
+
+	var sprite:Sprite;
+	public var x(get, set):Float;
+	public var y(get, set):Float;
+	public var mask:Hitbox;
+	final sprWalk:Sprite;
+	final sprStand:Sprite;
+
+	var movekey:KeyCode = null;
+	var jump = false;
+	var xscale = 1;
+	var velY = 0.0;
+
+	public function new() {
+		sprStand = sprite = Sprites.playerStill();
+		sprWalk = Sprites.playerWalk(0.05);
+		mask = new Hitbox(cast 100 - 7, cast 100 - 8, 14, 11);
+		
+		hookInput();
+	}
+
+	function hookInput() {
+		Keyboard.get(0).notify(
+			function onDown(k) {
+				if (k == keyJump) {
+					jump = true;
+					return;
+				}
+
+				if (k == KeyCode.R) {
+					x = 100;
+					y = 100;
+				}
+
+				movekey = switch(k) {
+					case KeyCode.A: KeyCode.A;
+					case KeyCode.D: KeyCode.D;
+					default: movekey;
+				};
+			},
+			function onUp(k) {
+				if (k == movekey) { movekey = null; }
+			}
+		);
+	}
+
+	public function update(solids:Masklist) {
+		switch (movekey) {
+			case A:
+				x -= runSpeed;
+				xscale = -1;
+				sprite = sprWalk;
+				while (mask.collide(solids))
+					x ++;
+			case D:
+				x += runSpeed;
+				xscale = 1;
+				sprite = sprWalk;
+				while (mask.collide(solids))
+					x --;
+			default:
+				sprite = sprStand;
+		}
+
+		if (jump) {
+			y += 1;
+			if (mask.collide(solids)) {
+				velY = jumpSpeed;
+			}
+			y -= 1;
+		}
+		jump = false;
+
+
+		y += Math.floor(velY);
+		velY += gravity;
+		var falling = velY > 0;
+		while (mask.collide(solids)) {
+			if (falling) {
+				y = Math.floor(y-1);
+			} else {
+				y = Math.floor(y + 1);
+			}
+			velY = 0;
+		}
+
+	}
+
+	public function draw(g2:Graphics) {
+		sprite.drawScaled(g2, x, y, xscale, 1);
+		// g2.drawRect(mask.x, mask.y, mask.width, mask.height);
+	}
+
+	function set_x(val:Float):Float {
+		mask.x = val - 8;
+		return val;
+	}
+	function get_x() return mask.x + 8;
+	function set_y(val:Float):Float {
+		mask.y = val - 8;
+		return val;
+	}
+	function get_y() return mask.y + 8;
+}
+
 class Main {
 	static var tsx:Map<String, TmxTileset>;
 	static var r:Reader;
 	static var tilemapRenderer:TileLayerRenderer;
+	static var player:Player;
 	static var solids:Masklist = new Masklist();
 	
 	static function getTSX(name:String):TmxTileset {
@@ -218,39 +330,42 @@ class Main {
 			default: continue;
 		}
 
+		player = new Player();
+	}
+
 	static function update(): Void {
+		player.update(cast solids);
 	}
 
 	static function render(frames: Array<Framebuffer>): Void {
-		// As we are using only 1 window, grab the first framebuffer
 		final fb = frames[0];
-		// Now get the `g2` graphics object so we can draw
 		final g2 = fb.g2;
 		final scale = 3.5;
 
 		g2.begin(true, Color.fromBytes(0, 95, 106));
 		
 		g2.pushTransformation(FastMatrix3.scale(scale, scale));
-
+		g2.pushTranslation( 
+			Math.floor( (-player.x)*scale + 1024/2), 
+			Math.floor( (-player.y)*scale + 768/2)
+		);
+		
 		tilemapRenderer.draw(g2);
+		player.draw(g2);
 
-		  for (colIndex in 0...row.length) {
-		    switch row.charAt(colIndex) {
-		      case "1": g2.fillRect(colIndex * 16, rowIndex * 16, 16, 16);
-		      case _:
-		    }
-		  }
-		}
+		// for (hb in solids) {
+		// 	g2.drawRect(
+		// 		hb.x, hb.y, hb.width, hb.height
+		// 	);
+		// }
 
-		// Pop the pushed translation so it will not accumulate over multiple frames
 		g2.popTransformation();
-		// Finish the drawing operations
+		g2.popTransformation();
 		g2.end();
 	}
 
 	public static function main() {
 		System.start({title: "Project", width: 1024, height: 768}, function (_) {
-			// Just loading everything is ok for small projects
 			Assets.loadEverything(function () {
 				init();
 				Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
