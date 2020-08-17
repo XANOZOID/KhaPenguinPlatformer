@@ -28,6 +28,45 @@ import format.tmx.Data.TmxMap;
 import format.tmx.Data.TmxTileset;
 import format.tmx.Reader;
 
+class TileLayerRenderer {
+	var layer:TmxTileLayer;
+	var texture:Image;
+
+	public function new(layer, texture) {
+		this.layer = layer;
+		this.texture = texture;
+	}
+
+	public function draw(g2:Graphics) {
+		for (chunk in layer.data.chunks) {
+			var i = 0;
+			for (yy in 0...chunk.height) {
+				for (xx in 0...chunk.width) {
+					final tile = chunk.tiles[i];
+					if (tile.gid != 0) drawTile(g2, chunk, tile, xx, yy);
+					i ++;
+				}
+			}
+		}
+	}
+
+	inline function drawTile(g2:Graphics, chunk:TmxChunk, tile:TmxTile, tileX:Int, tileY:Int) {
+		final shift = 19;
+		final shiftX = (tile.gid %  19) - 1;
+		final shiftY:Int = Math.floor(tile.gid / shift);
+		if (tile.gid == 18) {
+			trace(shiftX);
+			trace(shiftY);
+		}
+		g2.drawSubImage(texture,
+			(chunk.x + tileX) * 16,
+			(chunk.y + tileY) * 16,
+			shiftX * 16 + shiftX, 
+			shiftY * 16 + shiftY,
+			16, 16
+		);
+	}
+}
 
 @:structInit class Sprite {
 	public final texture:Image;
@@ -136,7 +175,48 @@ class Sprites {
 
 }
 class Main {
-	static var logo = ["1 1 1 1 111", "11  111 111", "1 1 1 1 1 1"];
+	static var tsx:Map<String, TmxTileset>;
+	static var r:Reader;
+	static var tilemapRenderer:TileLayerRenderer;
+	static var solids:Masklist = new Masklist();
+	
+	static function getTSX(name:String):TmxTileset {
+		var cached:TmxTileset = tsx.get(name);
+		if (cached != null) return cached;
+		var tsxData = switch(name) {
+			case "tileset.tsx":Assets.blobs.Maps_tileset_tsx.toString();
+			default: "";
+		};
+		cached = r.readTSX(Xml.parse(tsxData));
+		tsx.set(name, cached);
+		return cached;
+	}
+
+	static function init() {
+		r = new Reader();
+		r = new Reader();
+		r.resolveTSX = getTSX;
+		tsx = new Map();
+		var mapData = Assets.blobs.Maps_map1_tmx.toString();
+		var t:TmxMap = r.read(Xml.parse(mapData));
+
+		for (layer in t.layers) switch (layer) {
+			case TmxLayer.LTileLayer(layerTile):
+				tilemapRenderer = new TileLayerRenderer(layerTile, Assets.images.Maps_monochrome_tilemap_transparent);
+			case TmxLayer.LObjectGroup(objects):
+				if (objects.name == 'solid') {
+					for (obj in objects.objects) {
+						switch(obj.objectType) {
+							case TmxObjectType.OTRectangle:
+								solids.add(
+									new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height)
+								);
+							default: continue;
+						}
+					}
+				}
+			default: continue;
+		}
 
 	static function update(): Void {
 	}
@@ -146,16 +226,13 @@ class Main {
 		final fb = frames[0];
 		// Now get the `g2` graphics object so we can draw
 		final g2 = fb.g2;
-		// Start drawing, and clear the framebuffer to `petrol`
-		g2.begin(true, Color.fromBytes(0, 95, 106));
-		// Offset all following drawing operations from the top-left a bit
-		g2.pushTranslation(64, 64);
-		// Fill the following rects with red
-		g2.color = Color.Red;
+		final scale = 3.5;
 
-		// Loop over the logo (Array<String>) and draw a rect for each "1"
-		for (rowIndex in 0...logo.length) {
-		  final row = logo[rowIndex];
+		g2.begin(true, Color.fromBytes(0, 95, 106));
+		
+		g2.pushTransformation(FastMatrix3.scale(scale, scale));
+
+		tilemapRenderer.draw(g2);
 
 		  for (colIndex in 0...row.length) {
 		    switch row.charAt(colIndex) {
@@ -175,8 +252,7 @@ class Main {
 		System.start({title: "Project", width: 1024, height: 768}, function (_) {
 			// Just loading everything is ok for small projects
 			Assets.loadEverything(function () {
-				// Avoid passing update/render directly,
-				// so replacing them via code injection works
+				init();
 				Scheduler.addTimeTask(function () { update(); }, 0, 1 / 60);
 				System.notifyOnFrames(function (frames) { render(frames); });
 			});
