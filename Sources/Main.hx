@@ -1,10 +1,32 @@
 package;
 
+import masks.Hitbox;
+import masks.Mask;
+import masks.Masklist;
+
+import format.tmx.Data.TmxObjectType;
+import kha.Canvas;
+import kha.Display;
+import js.html.KeyframeEffect;
+import kha.input.Keyboard;
+// import kha.input.Mouse;
+import kha.math.FastMatrix3;
+import kha.Image;
+import kha.graphics2.Graphics;
 import kha.Assets;
 import kha.Color;
 import kha.Framebuffer;
 import kha.Scheduler;
 import kha.System;
+import kha.input.KeyCode;
+
+import format.tmx.Data.TmxTile;
+import format.tmx.Data.TmxChunk;
+import format.tmx.Data.TmxTileLayer;
+import format.tmx.Data.TmxLayer;
+import format.tmx.Data.TmxMap;
+import format.tmx.Data.TmxTileset;
+import format.tmx.Reader;
 
 class Main {
 	static var logo = ["1 1 1 1 111", "11  111 111", "1 1 1 1 1 1"];
