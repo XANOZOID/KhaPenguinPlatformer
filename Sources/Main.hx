@@ -154,12 +154,12 @@ class TileLayerRenderer {
 }
 
 class Sprites {
-	static public function playerStill():Sprite return {
-		texture: Assets.images.Maps_monochrome_tilemap_transparent,
-		frameX: 0, frameY: 256,
-		frameW: 16, frameH: 16,
-		originX: 0.5, originY: 0.75,
-	};
+	static public function playerStill():Sprite 
+		return playerSprite(0);
+	static public function playerJump():Sprite 
+		return playerSprite(4);
+	static public function playerFall():Sprite 
+		return playerSprite(3);
 
 	static public function playerWalk(speed:Float):Animation return {
 		texture: Assets.images.Maps_monochrome_tilemap_transparent,
@@ -173,6 +173,12 @@ class Sprites {
 		playSpeed: speed
 	};
 
+	static function playerSprite(cellX):Sprite return {
+		texture: Assets.images.Maps_monochrome_tilemap_transparent,
+		frameX: cellX * 16 + cellX, frameY: 256,
+		frameW: 16, frameH: 16,
+		originX: 0.5, originY: 0.75,
+	};
 }
 
 class Player {
@@ -187,6 +193,8 @@ class Player {
 	public var mask:Hitbox;
 	final sprWalk:Sprite;
 	final sprStand:Sprite;
+	final sprFall:Sprite;
+	final sprJump:Sprite;
 
 	var movekey:KeyCode = null;
 	var jump = false;
@@ -196,6 +204,8 @@ class Player {
 	public function new() {
 		sprStand = sprite = Sprites.playerStill();
 		sprWalk = Sprites.playerWalk(0.05);
+		sprFall = Sprites.playerFall();
+		sprJump = Sprites.playerJump();
 		mask = new Hitbox(cast 100 - 7, cast 100 - 8, 14, 11);
 		
 		hookInput();
@@ -244,14 +254,17 @@ class Player {
 				sprite = sprStand;
 		}
 
+		y += 1;
+		var onFloor = mask.collide(solids);
+		y -= 1;
+
 		if (jump) {
-			y += 1;
-			if (mask.collide(solids)) {
+			if (onFloor) {
 				velY = jumpSpeed;
+				onFloor = false;
 			}
-			y -= 1;
+			jump = false;
 		}
-		jump = false;
 
 
 		y += Math.floor(velY);
@@ -266,9 +279,20 @@ class Player {
 			velY = 0;
 		}
 
+		if (!onFloor) {
+			if (velY > 0 ) {
+				sprite = sprFall;
+			} else {
+				sprite = sprJump;
+			}
+		}
+
 	}
 
 	public function draw(g2:Graphics) {
+		g2.color = Color.Black;
+		g2.fillRect(mask.x, mask.y, mask.width, mask.height);
+		g2.color = Color.White;
 		sprite.drawScaled(g2, x, y, xscale, 1);
 		// g2.drawRect(mask.x, mask.y, mask.width, mask.height);
 	}
@@ -342,7 +366,8 @@ class Main {
 		final g2 = fb.g2;
 		final scale = 3.5;
 
-		g2.begin(true, Color.fromBytes(0, 95, 106));
+		// g2.begin(true, Color.fromBytes(0, 95, 106));
+		g2.begin(true, Color.Black);
 		
 		g2.pushTransformation(FastMatrix3.scale(scale, scale));
 		g2.pushTranslation( 
