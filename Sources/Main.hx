@@ -18,7 +18,7 @@ class Main {
 			Assets.loadEverything(function () {
 				hub = new Hub();
 				hub.onInit();
-				hub.systems.loader.load(
+				hub.services.loader.load(
 					Assets.blobs.Maps_map1_tmx.toString()
 				);
 				Scheduler.addTimeTask(function () { hub.onUpdate(); }, 0, 1 / 60);

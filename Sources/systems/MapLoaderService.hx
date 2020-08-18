@@ -18,10 +18,10 @@ import masks.*;
 import graphics.TileLayerRenderer;
 import carbons.Player;
 
-class MapLoader {
-	public var tsx:Map<String, TmxTileset>;
-	public var r:Reader;
-	public var hub:Hub;
+class MapLoaderService {
+	var tsx:Map<String, TmxTileset>;
+	var r:Reader;
+	var hub:Hub;
 
 	public function new(hub) {
 		this.hub = hub;
@@ -49,7 +49,7 @@ class MapLoader {
 			default: continue;
 		}
 		
-		hub.carbons.player = new Player();
+		hub.services.spawner.spawnPlayer(100, 100);
     }
     
 	function getTSX(name:String):TmxTileset {

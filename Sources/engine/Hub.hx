@@ -18,9 +18,8 @@ final class Hub {
     public function new() {
         context = new HubContext();
         carbons = new Carbons();
-        services = new Services();
+        services = new Services(this);
         systems = new Systems(this);
-
     }
 
     /// Listeners
