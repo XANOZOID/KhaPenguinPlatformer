@@ -39,18 +39,36 @@ class MapLoaderService {
 					new TileLayerRenderer(layerTile, 
 					Assets.images.Maps_monochrome_tilemap_transparent);
 			case TmxLayer.LObjectGroup(objects):
-				if (objects.name == 'solid') {
-					for (obj in objects.objects) switch(obj.objectType) {
-						case TmxObjectType.OTRectangle:
-							hub.carbons.solids.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
-						default: continue;
-					}
+				loadObjectGroup(objects);
+			default: continue;
+		}
+	}
+	
+	function loadObjectGroup(group:TmxObjectGroup) {
+		switch (group.name) {
+			case 'solid': loadSolids(group);
+			case 'special_obstacles': loadSpecial(group);
+		}
+	}
+
+	function loadSolids(group:TmxObjectGroup) {
+		for (obj in group.objects) switch(obj.objectType) {
+			case TmxObjectType.OTRectangle:
+				hub.carbons.solids.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
+			default: continue;
+		}
+	}
+
+	function loadSpecial(group:TmxObjectGroup) {
+		for (obj in group.objects) switch(obj.objectType) {
+			case TmxObjectType.OTPoint:
+				if (obj.name == 'player_start') {
+					hub.services.spawner.spawnPlayer(cast obj.x, cast obj.y);
 				}
 			default: continue;
 		}
-		
-		hub.services.spawner.spawnPlayer(100, 100);
-    }
+	}
+
     
 	function getTSX(name:String):TmxTileset {
 		var cached:TmxTileset = tsx.get(name);

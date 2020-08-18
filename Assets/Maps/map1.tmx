@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="1" backgroundcolor="#211a2c" nextlayerid="9" nextobjectid="72">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="1" backgroundcolor="#211a2c" nextlayerid="9" nextobjectid="73">
  <tileset firstgid="1" source="tset2.tsx"/>
  <layer id="8" name="obstacles" width="100" height="100">
   <data encoding="csv">
@@ -349,11 +349,10 @@
   <object id="41" x="1392" y="304" width="112" height="16"/>
   <object id="42" x="1488" y="240" width="96" height="96"/>
  </objectgroup>
- <objectgroup id="4" name="special_obstacles" offsetx="80" offsety="16">
-  <object id="48" name="destroy_wall" x="976" y="320" width="16" height="16"/>
-  <object id="49" name="destroy_wall" x="992" y="288" width="16" height="32"/>
-  <object id="70" type="hitblock" x="928" y="-80" width="14" height="14"/>
-  <object id="71" name="player_start" x="-67" y="138">
+ <objectgroup id="4" name="special_obstacles">
+  <object id="48" name="destroy_wall" x="1056" y="336" width="16" height="16"/>
+  <object id="49" name="destroy_wall" x="1072" y="304" width="16" height="32"/>
+  <object id="71" name="player_start" x="43" y="146">
    <point/>
   </object>
  </objectgroup>
