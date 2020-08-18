@@ -42,7 +42,7 @@ final class Hub {
 
     public function evUpdate() {
 
-        player.update(carbons.solids);
+        player.update();
         
     }
 
