@@ -47,7 +47,7 @@
         },
         "tset2.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 2
+            "scaleInEditor": 1
         }
     },
     "map.fixedSize": false,
@@ -63,8 +63,8 @@
     ],
     "project": "penguin.tiled-project",
     "recentFiles": [
-        "map1.tmx",
         "tset2.tsx",
+        "map1.tmx",
         "map2.tmx",
         "tileset.tsx"
     ],
