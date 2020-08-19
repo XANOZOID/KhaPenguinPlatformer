@@ -58,7 +58,7 @@ class Player {
 	public function new(hub, x, y) {
 		_hub = hub;
 		sprStand = sprite = Sprites.playerStill();
-		sprWalk = Sprites.playerWalk(0.05);
+		sprWalk = Sprites.playerWalk(0.19);
 		sprFall = Sprites.playerFall();
 		sprJump = Sprites.playerJump();
 		mask = new Hitbox(cast x - 7, cast y - 8, 14, 11);
@@ -92,30 +92,47 @@ class Player {
 	}
 
 	function moveVelX() {
-		var moveBy:Int = Math.floor(Math.abs(velX));
+		var moveBy = Math.abs(velX);
 		var moveDirection = velX.sign();
 		while (moveBy > 0) {
 			final moveInc = Math.min(1, moveBy);
-			x += moveInc * moveDirection;
-			if (mask.collide(solids)) {
-				x -= moveDirection * moveInc;
+			final moveIncDir = moveInc * moveDirection;
+			final moveIncTest = moveDirection;
+
+			if (!collidesAt(moveIncTest, 0)) {
+				x += moveIncDir;
+				// We can also walk down slopes . . . 
+				if (getMaterial() == Air) {
+					if (collidesAt(0, 2)) {
+						y += 1;
+					}
+				}
+			}
+			else if (!collidesAt(moveIncTest, -1)) {
+				if (moveInc >= 1){
+					x += moveIncDir;
+					y -= 1;
+				}
+			}
+			else if (collidesAt(moveIncTest, 0)) {
 				velX = 0;
 				x = x.trunc();
-				return;
+				return;			
 			}
 			moveBy -= 1;
 		}
 	}
 
 	function moveVelY() {
+		if (velY == 0) return;
 		y += Math.floor(velY);
 		var falling = velY > 0;
 		while (mask.collide(solids)) {
 			if (falling) {
-				y = Math.floor(y-1);
+				y = y.trunc() - 1;
 				velY = 0;
 			} else {
-				y = Math.floor(y + 1);
+				y = y.trunc() + 1;
 			}
 		}
 	}
@@ -143,8 +160,8 @@ class Player {
 			default: noMove();
 		}
 
-		velY += gravity;
 		var onFloor = getMaterial() == Ground;
+		
 		if (jump) {
 			if (onFloor) {
 				velY = jumpSpeed * (Math.abs(velX) / (runSpeed*0.55)).clamp(0.7, 1);
@@ -154,7 +171,8 @@ class Player {
 		else if (!onFloor && velY < 0) {
 			velY *= 0.675;
 		}
-
+		
+		if (!onFloor) velY += gravity;
 		moveVelY();
 
 		if (!onFloor) {
@@ -172,7 +190,7 @@ class Player {
 
 	public function draw(g2:Graphics) {
 		g2.color = _hub.context.mapColor;
-		g2.fillRect(mask.x, mask.y, mask.width, mask.height);
+		g2.fillRect(mask.x, mask.y - 1, mask.width + 1, mask.height);
 		g2.color = Color.White;
 		sprite.drawScaled(g2, x, y, xscale, 1);
 	}

@@ -1,5 +1,6 @@
 package masks;
 
+import kha.graphics2.Graphics;
 import masks.Hitbox;
 import math.Projection;
 import math.Vector2;
@@ -57,7 +58,7 @@ class Polygon extends Mask {
 	 * @param	points		An array of coordinates that define the polygon (must have at least 3 and be convex).
 	 * @param	origin	 	Pivot point for rotations.
 	 */
-	function new(points:Array<Vector2>, ?origin:Vector2) {
+	public function new(points:Array<Vector2>, ?origin:Vector2) {
 		super();
 		if (points.length < 3) throw "The polygon needs at least 3 sides.";
 		_points = points;
@@ -244,31 +245,20 @@ class Polygon extends Mask {
 		projection.max = max;
 	}
 
-	/*@:dox(hide)
-	override public function debugDraw(camera:Camera):Void
-	{
-		var offsetX:Float = _parent.x + _x - camera.x,
-			offsetY:Float = _parent.y + _y - camera.y,
-			scaleX = camera.screenScaleX,
-			scaleY = camera.screenScaleY;
-
-		var dc = Mask.drawContext;
-		dc.setColor(0x0000ff, 0.3);
-
-		for (i in 1..._points.length + 1)
-		{
+	public function debugDraw(g2:Graphics):Void {
+		for (i in 1..._points.length + 1) {
 			var a = i - 1, b = i % _points.length;
-			dc.line(
-				(points[a].x + offsetX) * scaleX,
-				(points[a].y + offsetY) * scaleY,
-				(points[b].x + offsetX) * scaleX,
-				(points[b].y + offsetY) * scaleY
+			g2.drawLine(
+				(points[a].x),
+				(points[a].y ),
+				(points[b].x ),
+				(points[b].y )
 			);
 		}
 
 		// draw pivot
-		dc.circle((offsetX + origin.x) * scaleX, (offsetY + origin.y) * scaleY, 2);
-	}*/
+		// dc.circle((offsetX + origin.x) * scaleX, (offsetY + origin.y) * scaleY, 2);
+	}
 
 	/**
 	 * Rotation angle (in degrees) of the polygon (rotates around origin point).

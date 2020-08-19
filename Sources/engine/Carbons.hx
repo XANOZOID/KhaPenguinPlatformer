@@ -1,5 +1,6 @@
 package engine;
 
+import masks.Polygon;
 import masks.Masklist;
 import graphics.TileLayerRenderer;
 import carbons.Player;
@@ -10,6 +11,7 @@ class Carbons {
 	public var player:Player;
     public var solids:Masklist = new Masklist();
     public var deathZones:Masklist = new Masklist();
+    public var polygons:Array<Polygon> = [];
 
     // Groups... (empty)
     public function getGroupNameIterator() {

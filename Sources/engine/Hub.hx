@@ -56,7 +56,11 @@ final class Hub {
 			Math.floor( (-player.x)*scale + 1024/2), 
 			Math.floor( (-player.y)*scale + 768/2)
 		);
-		
+        
+        // for (polygon in carbons.polygons) {
+        //     polygon.debugDraw(g2);
+        // }
+        
 		carbons.tilemapRenderer.draw(g2);
 		player.draw(g2);
 

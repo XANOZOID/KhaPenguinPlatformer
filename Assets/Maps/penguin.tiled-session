@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map2.tmx",
+    "activeFile": "map1.tmx",
     "expandedProjectPaths": [
-        "templates",
-        "."
+        ".",
+        "templates"
     ],
     "fileStates": {
         "C:/Users/Xano/Documents/projects/OGA/Kenney/Roguelike pack/Map/sample_indoor.tmx": {
@@ -26,11 +26,11 @@
             }
         },
         "map1.tmx": {
-            "scale": 2,
-            "selectedLayer": 0,
+            "scale": 1.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 138.25,
-                "y": 107
+                "x": 260,
+                "y": 2.6666666666666856
             }
         },
         "map2.tmx": {
@@ -46,7 +46,7 @@
             "scaleInEditor": 2
         },
         "tset2.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         }
     },
@@ -58,13 +58,12 @@
     "map.tileWidth": 16,
     "map.width": 100,
     "openFiles": [
-        "map1.tmx",
-        "tset2.tsx"
+        "map1.tmx"
     ],
     "project": "penguin.tiled-project",
     "recentFiles": [
-        "tset2.tsx",
         "map1.tmx",
+        "tset2.tsx",
         "map2.tmx",
         "tileset.tsx"
     ],

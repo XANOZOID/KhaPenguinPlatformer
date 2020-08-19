@@ -1,5 +1,7 @@
 package systems;
 
+import math.Vector2;
+import masks.Polygon;
 import kha.Assets;
 import engine.*;
 
@@ -58,6 +60,10 @@ class MapLoaderService {
 		for (obj in group.objects) switch(obj.objectType) {
 			case TmxObjectType.OTRectangle:
 				hub.carbons.solids.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
+			case TmxObjectType.OTPolygon(points):
+				var polygon = new Polygon(points.map(t -> new Vector2(t.x + obj.x, t.y + obj.y + 1)));
+				hub.carbons.solids.add(polygon);
+				hub.carbons.polygons.push(polygon);
 			default: continue;
 		}
 	}
