@@ -49,6 +49,7 @@ class MapLoaderService {
 	function loadObjectGroup(group:TmxObjectGroup) {
 		switch (group.name) {
 			case 'solid': loadSolids(group);
+			case 'death': loadDeathZones(group);
 			case 'special_obstacles': loadSpecial(group);
 		}
 	}
@@ -57,6 +58,14 @@ class MapLoaderService {
 		for (obj in group.objects) switch(obj.objectType) {
 			case TmxObjectType.OTRectangle:
 				hub.carbons.solids.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
+			default: continue;
+		}
+	}
+	
+	function loadDeathZones(group:TmxObjectGroup) {
+		for (obj in group.objects) switch(obj.objectType) {
+			case TmxObjectType.OTRectangle:
+				hub.carbons.deathZones.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
 			default: continue;
 		}
 	}

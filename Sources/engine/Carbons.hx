@@ -9,6 +9,7 @@ class Carbons {
 	public var tilemapRenderer:TileLayerRenderer;
 	public var player:Player;
     public var solids:Masklist = new Masklist();
+    public var deathZones:Masklist = new Masklist();
 
     // Groups... (empty)
     public function getGroupNameIterator() {

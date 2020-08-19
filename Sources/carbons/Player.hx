@@ -49,6 +49,8 @@ class Player {
 	var material:Material = Air;
 	var _hub:Hub;
 	var running = false;
+	var spawnX:Float;
+	var spawnY:Float;
 
 	var solids(get, never):Masklist;
 	inline function get_solids() return _hub.carbons.solids;
@@ -60,8 +62,17 @@ class Player {
 		sprFall = Sprites.playerFall();
 		sprJump = Sprites.playerJump();
 		mask = new Hitbox(cast x - 7, cast y - 8, 14, 11);
+		spawnX = x;
+		spawnY = y;
 		
 		hookInput();
+	}
+
+	function respawn() {
+		velY = 0;
+		velX = 0;
+		x = spawnX;
+		y = spawnY;
 	}
 
 	function getMaterial(yOff:Int = 1) {
@@ -153,6 +164,10 @@ class Player {
 				sprite = sprJump;
 			}
 		}
+
+		if (_hub.carbons.deathZones.collideHitbox(mask)) {
+			respawn();
+		}
 	}
 
 	public function draw(g2:Graphics) {
@@ -171,8 +186,7 @@ class Player {
 				}
 
 				if (k == KeyCode.R) {
-					x = 100;
-					y = 100;
+					respawn();
 				}
 
 				movekey = switch(k) {

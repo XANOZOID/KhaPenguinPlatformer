@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="1" backgroundcolor="#317529" nextlayerid="9" nextobjectid="73">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="1" backgroundcolor="#1c4217" nextlayerid="10" nextobjectid="77">
  <tileset firstgid="1" source="tset2.tsx"/>
  <layer id="8" name="obstacles" width="100" height="100">
   <data encoding="csv">
@@ -348,6 +348,11 @@
   <object id="40" x="1312" y="320" width="80" height="16"/>
   <object id="41" x="1392" y="304" width="112" height="16"/>
   <object id="42" x="1488" y="240" width="96" height="96"/>
+ </objectgroup>
+ <objectgroup color="#ff0000" id="9" name="death">
+  <object id="74" x="-365" y="256" width="875" height="114"/>
+  <object id="75" x="466" y="290" width="348" height="158"/>
+  <object id="76" x="1553" y="289" width="466" height="154"/>
  </objectgroup>
  <objectgroup id="4" name="special_obstacles">
   <object id="48" name="destroy_wall" x="1056" y="336" width="16" height="16"/>
