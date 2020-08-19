@@ -12,7 +12,7 @@ import format.tmx.Data.TmxTileset;
 import format.tmx.Reader;
 import format.tmx.Data.TmxObjectType;
 import format.tmx.Data;
-
+import kha.Color;
 
 import masks.*;
 import graphics.TileLayerRenderer;
@@ -42,6 +42,8 @@ class MapLoaderService {
 				loadObjectGroup(objects);
 			default: continue;
 		}
+
+		hub.context.mapColor = Color.fromString(t.backgroundColorHex);
 	}
 	
 	function loadObjectGroup(group:TmxObjectGroup) {
@@ -68,7 +70,6 @@ class MapLoaderService {
 			default: continue;
 		}
 	}
-
     
 	function getTSX(name:String):TmxTileset {
 		var cached:TmxTileset = tsx.get(name);

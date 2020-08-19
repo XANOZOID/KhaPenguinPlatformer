@@ -1,5 +1,6 @@
 package engine;
 
+import haxe.macro.Context;
 import carbons.Player;
 import kha.graphics2.Graphics;
 import kha.math.FastMatrix3;
@@ -48,7 +49,7 @@ final class Hub {
 
     public function evDraw(g2:Graphics) {
         final scale = 3.5;
-		g2.begin(true, Color.Black);
+		g2.begin(true, context.mapColor);
 		
 		g2.pushTransformation(FastMatrix3.scale(scale, scale));
 		g2.pushTranslation( 

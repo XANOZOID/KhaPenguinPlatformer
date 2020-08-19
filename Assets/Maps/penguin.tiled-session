@@ -26,11 +26,11 @@
             }
         },
         "map1.tmx": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 270,
-                "y": 166
+                "x": 138.25,
+                "y": 107
             }
         },
         "map2.tmx": {
@@ -63,8 +63,8 @@
     ],
     "project": "penguin.tiled-project",
     "recentFiles": [
-        "tset2.tsx",
         "map1.tmx",
+        "tset2.tsx",
         "map2.tmx",
         "tileset.tsx"
     ],

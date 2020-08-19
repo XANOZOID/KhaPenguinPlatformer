@@ -25,7 +25,7 @@ class Player {
 	static final drag:Float = .85;
 	static final accelX = 0.5;
 	static final acceleration:Map<Material, Float> = [
-		Air => 0.5 * weight,
+		Air => 0.55 * weight,
 		Ground => 0.8 * weight
 	];
 	static final friction:Map<Material, Float> = [
