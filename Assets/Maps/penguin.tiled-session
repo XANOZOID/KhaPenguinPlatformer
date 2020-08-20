@@ -5,8 +5,8 @@
     },
     "activeFile": "map1.tmx",
     "expandedProjectPaths": [
-        ".",
-        "templates"
+        "templates",
+        "."
     ],
     "fileStates": {
         "C:/Users/Xano/Documents/projects/OGA/Kenney/Roguelike pack/Map/sample_indoor.tmx": {
@@ -26,11 +26,11 @@
             }
         },
         "map1.tmx": {
-            "scale": 1.5,
+            "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 260,
-                "y": 2.6666666666666856
+                "x": 412,
+                "y": 62.5
             }
         },
         "map2.tmx": {
