@@ -1,5 +1,6 @@
 package engine;
 
+import masks.Hitbox;
 import masks.Polygon;
 import masks.Masklist;
 import graphics.TileLayerRenderer;
@@ -10,6 +11,7 @@ class Carbons {
 	public var tilemapRenderer:TileLayerRenderer;
 	public var player:Player;
     public var solids:Masklist = new Masklist();
+    public var jumpthroughs:Array<Hitbox> = [];
     public var deathZones:Masklist = new Masklist();
     public var polygons:Array<Polygon> = [];
 

@@ -55,3 +55,12 @@ class Mask {
     public function maximize(extents:Extent):Void
         throw "not implemented";
 }
+
+class MaskExtension {
+    public static function collideEach<T:Mask>(mask:Mask, masks:Array<T>):T {
+        for (other in masks) {
+            if (mask.collide(other)) return other;
+        }
+        return null;
+    }
+}

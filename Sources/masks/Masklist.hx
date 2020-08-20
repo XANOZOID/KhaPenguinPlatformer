@@ -39,7 +39,7 @@ class Masklist extends MaskCollection {
 		return false;
 	}
 
-	override function collideHitbox(other:Hitbox) {
+	override function collideHitbox(other:Hitbox):Bool {
 		for (a in _masks) {
 			if (a.collideHitbox(other)) { return true; }
 		}

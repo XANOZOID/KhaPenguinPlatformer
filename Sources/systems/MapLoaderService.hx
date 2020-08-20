@@ -52,7 +52,16 @@ class MapLoaderService {
 		switch (group.name) {
 			case 'solid': loadSolids(group);
 			case 'death': loadDeathZones(group);
+			case 'jump_through': loadJumpthroughs(group);
 			case 'special_obstacles': loadSpecial(group);
+		}
+	}
+
+	function loadJumpthroughs(group:TmxObjectGroup) {
+		for (obj in group.objects) switch(obj.objectType) {
+			case TmxObjectType.OTRectangle:
+				hub.carbons.jumpthroughs.push(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
+			default: continue;
 		}
 	}
 

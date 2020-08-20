@@ -1,5 +1,6 @@
 package carbons;
 
+import masks.Mask.MaskExtension;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
 import kha.input.Keyboard;
@@ -18,7 +19,7 @@ private enum Material {
 
 class Player {
 	static final gravity = 0.325;
-	static final jumpSpeed = -6.45;
+	static final jumpSpeed = -6.85;
 	static final runSpeed = 5.9;
 	static final keyJump = KeyCode.Space;
 	static final weight:Float = 1;
@@ -76,10 +77,27 @@ class Player {
 	}
 
 	function getMaterial(yOff:Int = 1) {
-		y += yOff;
-		final material = mask.collide(solids)? Ground : Air;
-		y -= yOff;
+		var material = vertCollidesAt(0, yOff)? Ground : Air;
 		return material;
+	}
+
+	function vertCollidesAt(xOff:Float = 0, yOff:Float = 0):Bool {
+		x += xOff;
+		y += yOff;
+		var collided = mask.collide(solids);
+		if (!collided) {
+			if (velY >= 0 ) {
+				final res = MaskExtension.collideEach(mask, _hub.carbons.jumpthroughs);
+				if (res != null) {
+					if (res.y >= mask.y + mask.height - 1) {
+						collided = true;
+					}
+				}
+			}
+		}
+		x -= xOff;
+		y -= yOff;
+		return collided;
 	}
 
 	function collidesAt(xOff:Float, yOff:Float) {
@@ -125,16 +143,26 @@ class Player {
 
 	function moveVelY() {
 		if (velY == 0) return;
-		y += Math.floor(velY);
-		var falling = velY > 0;
-		while (mask.collide(solids)) {
-			if (falling) {
-				y = y.trunc() - 1;
-				velY = 0;
-			} else {
-				y = y.trunc() + 1;
+		// if (vertCollidesAt()) throw "colliding";
+		final xCheck = x.point();
+		final velDir = velY.sign();
+		var moveBy = Math.abs(velY);
+		while (moveBy > 0) {
+			final moveY = Math.min(1, moveBy) * velDir;
+			if (!vertCollidesAt(-xCheck, velDir)) {
+				y += velDir;
+			} 
+			else {
+				if (velY > 0) { velY = 0; }
+				y = y.trunc();
+				// if (vertCollidesAt()) {
+				// 	y -= 1;
+				// }
+				return;
 			}
+			moveBy --;
 		}
+		// velY = velY.clamp(-15, 15);
 	}
 
 	function moveX(direction) {
@@ -148,7 +176,8 @@ class Player {
 	}
 
 	function noMove() {
-		sprite = sprStand;
+		if (Math.abs(velX) < 0.05)
+			sprite = sprStand;
 		velX -= Math.min(Math.abs(velX), accelX)*(velX.sign()) * friction[getMaterial()];
 		moveVelX();
 	}
@@ -160,7 +189,7 @@ class Player {
 			default: noMove();
 		}
 
-		var onFloor = getMaterial() == Ground;
+		var onFloor = vertCollidesAt(0, 1);
 		
 		if (jump) {
 			if (onFloor) {
