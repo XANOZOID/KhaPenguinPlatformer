@@ -10,6 +10,9 @@ import kha.graphics2.Graphics;
 	public final separationY:Int;
 	public var playSpeed:Float;
 	public var currentFrame:Float;
+
+	public var onAnimationEnd:(Animation)->Void;
+
 	public function new(texture, frameX, frameY, frameW, frameH, frames, originX:Float, originY:Float, columns, separationX, separationY, playSpeed) {
 		super(texture, frameX, frameY, frameW, frameH, originX, originY);
 		this.frames = frames;
@@ -50,6 +53,11 @@ import kha.graphics2.Graphics;
 		final yOff = Math.floor(drawFrame / columns);
 		draw(drawFrame, xOff, yOff);
 		currentFrame += playSpeed;
-		if (currentFrame > frames) currentFrame -= frames;
+		if (currentFrame > frames) {
+			currentFrame -= frames;
+			if (onAnimationEnd != null) {
+				onAnimationEnd(this);
+			}
+		}
 	}
 }
