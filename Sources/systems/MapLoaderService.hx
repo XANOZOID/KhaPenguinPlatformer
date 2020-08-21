@@ -17,8 +17,8 @@ import format.tmx.Data;
 import kha.Color;
 
 import masks.*;
+import carbons.*;
 import graphics.TileLayerRenderer;
-import carbons.Player;
 
 class MapLoaderService {
 	var tsx:Map<String, TmxTileset>;
@@ -87,6 +87,12 @@ class MapLoaderService {
 
 	function loadSpecial(group:TmxObjectGroup) {
 		for (obj in group.objects) switch(obj.objectType) {
+			case TmxObjectType.OTRectangle:
+				switch(obj.type) {
+					case "Spring": 
+						hub.services.spawner.spawnSpring(obj.x, obj.y);
+					default: continue;
+				}
 			case TmxObjectType.OTPoint:
 				if (obj.name == 'player_start') {
 					hub.services.spawner.spawnPlayer(cast obj.x, cast obj.y);

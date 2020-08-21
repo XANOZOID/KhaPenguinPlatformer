@@ -23,6 +23,17 @@ class Sprites {
 		playSpeed: speed
 	};
 
+	static public function obstacleSpring(speed:Float):Animation return {
+		texture: Assets.images.Maps_monochrome_tilemap_transparent,
+		frameX: 51, frameY: 136,
+		frameW: 16, frameH: 16,
+		originX: 0.5, originY: 0,
+		separationY: 0, separationX: 1,
+		frames: 3,
+		columns: 3,
+		playSpeed: speed
+	}
+
 	static function playerSprite(cellX):Sprite return {
 		texture: Assets.images.Maps_monochrome_tilemap_transparent,
 		frameX: cellX * 16 + cellX, frameY: 256,

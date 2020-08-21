@@ -46,6 +46,7 @@ class Player {
 	var jump = false;
 	var xscale = 1;
 	var velY = 0.0;
+	var externalVelY = 0.0;
 	var velX = 0.0;
 	var material:Material = Air;
 	var _hub:Hub;
@@ -109,6 +110,15 @@ class Player {
 		return collided;
 	}
 
+	public function isFalling() {
+		return velY > 0;
+	}
+
+	public function hitSpring() {
+		externalVelY = jumpSpeed*0.4;
+		velY = jumpSpeed * 1.35;
+	}
+
 	function moveVelX() {
 		var moveBy = Math.abs(velX);
 		var moveDirection = velX.sign();
@@ -143,7 +153,6 @@ class Player {
 
 	function moveVelY() {
 		if (velY == 0) return;
-		// if (vertCollidesAt()) throw "colliding";
 		final xCheck = x.point();
 		final velDir = velY.sign();
 		var moveBy = Math.abs(velY);
@@ -155,14 +164,11 @@ class Player {
 			else {
 				if (velY > 0) { velY = 0; }
 				y = y.trunc();
-				// if (vertCollidesAt()) {
-				// 	y -= 1;
-				// }
 				return;
 			}
 			moveBy --;
 		}
-		// velY = velY.clamp(-15, 15);
+		velY = velY.clamp(-30, 20);
 	}
 
 	function moveX(direction) {
@@ -192,16 +198,19 @@ class Player {
 		var onFloor = vertCollidesAt(0, 1);
 		
 		if (jump) {
-			if (onFloor) {
+			if (onFloor && externalVelY >= 0) {
 				velY = jumpSpeed * (Math.abs(velX) / (runSpeed*0.55)).clamp(0.7, 1);
 				onFloor = false;
 			}
 		} 
-		else if (!onFloor && velY < 0) {
+		else if (!onFloor && velY < 0 && externalVelY >= 0) {
 			velY *= 0.675;
 		}
 		
-		if (!onFloor) velY += gravity;
+		if (!onFloor) {
+			externalVelY += gravity;
+			velY += gravity;
+		}
 		moveVelY();
 
 		if (!onFloor) {

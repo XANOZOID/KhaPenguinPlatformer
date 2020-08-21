@@ -14,4 +14,10 @@ class CarbonFactoryService {
         return _hub.carbons.player = new Player(_hub, x, y);
     }
 
+    public function spawnSpring(x,y):Spring {
+        final spring = new Spring(_hub, x, y);
+        _hub.carbons.springs.push(spring);
+        return spring;
+    }
+
 }

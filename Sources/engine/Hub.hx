@@ -44,6 +44,8 @@ final class Hub {
     public function evUpdate() {
 
         player.update();
+        for (spring in carbons.springs) 
+            spring.update();
         
     }
 
@@ -61,7 +63,9 @@ final class Hub {
         //     polygon.debugDraw(g2);
         // }
         
-		carbons.tilemapRenderer.draw(g2);
+        carbons.tilemapRenderer.draw(g2);
+        for (spring in carbons.springs) 
+            spring.draw(g2);
 		player.draw(g2);
 
 		g2.popTransformation();

@@ -4,7 +4,7 @@ import masks.Hitbox;
 import masks.Polygon;
 import masks.Masklist;
 import graphics.TileLayerRenderer;
-import carbons.Player;
+import carbons.*;
 
 class Carbons {
     // Carbons
@@ -14,6 +14,7 @@ class Carbons {
     public var jumpthroughs:Array<Hitbox> = [];
     public var deathZones:Masklist = new Masklist();
     public var polygons:Array<Polygon> = [];
+    public var springs:Array<Spring> = [];
 
     // Groups... (empty)
     public function getGroupNameIterator() {
