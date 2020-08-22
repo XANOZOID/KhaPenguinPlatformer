@@ -64,7 +64,7 @@ class MapLoaderService {
 			default: continue;
 		}
 	}
-
+	
 	function loadSolids(group:TmxObjectGroup) {
 		for (obj in group.objects) switch(obj.objectType) {
 			case TmxObjectType.OTRectangle:
@@ -86,18 +86,15 @@ class MapLoaderService {
 	}
 
 	function loadSpecial(group:TmxObjectGroup) {
-		for (obj in group.objects) switch(obj.objectType) {
-			case TmxObjectType.OTRectangle:
-				switch(obj.type) {
-					case "Spring": 
-						hub.services.spawner.spawnSpring(obj.x, obj.y);
-					default: continue;
-				}
-			case TmxObjectType.OTPoint:
+		for (obj in group.objects) switch(obj.type) {
+			case "Spring": 
+				hub.services.spawner.spawnSpring(obj.x, obj.y);
+			case 'Checkpoint':
+				hub.carbons.checkpoints.add(new Hitbox(obj.x, obj.y, cast obj.width,cast obj.height));
+			default: 
 				if (obj.name == 'player_start') {
 					hub.services.spawner.spawnPlayer(cast obj.x, cast obj.y);
 				}
-			default: continue;
 		}
 	}
     

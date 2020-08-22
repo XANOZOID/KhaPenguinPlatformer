@@ -38,6 +38,13 @@ class Masklist extends MaskCollection {
 		}
 		return false;
 	}
+	
+	override function getCollidingMask(other:Mask):Mask {
+		for (a in _masks) {
+			if (a.collide(other)) { return a; }
+		}
+		return null;
+	}
 
 	override function collideHitbox(other:Hitbox):Bool {
 		for (a in _masks) {

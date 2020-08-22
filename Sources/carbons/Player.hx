@@ -1,5 +1,6 @@
 package carbons;
 
+import js.html.rtc.SignalingState;
 import masks.Mask.MaskExtension;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
@@ -115,7 +116,7 @@ class Player {
 	}
 
 	public function hitSpring() {
-		externalVelY = jumpSpeed*0.4;
+		externalVelY = jumpSpeed*0.25;
 		velY = jumpSpeed * 1.35;
 	}
 
@@ -190,19 +191,24 @@ class Player {
 
 	public function update() {
 		switch (movekey) {
-			case A: moveX(-1);
-			case D: moveX(1);
+			case A:  moveX(-1);
+			case D:  moveX(1);
 			default: noMove();
 		}
 
 		var onFloor = vertCollidesAt(0, 1);
+		var huggingWall = false;
+		if (!onFloor) {
+			huggingWall = (velX.sign() == xscale.sign() || velX == 0 && movekey != null) &&
+				collidesAt(xscale*2, 0);
+		}
 		
 		if (jump) {
 			if (onFloor && externalVelY >= 0) {
 				velY = jumpSpeed * (Math.abs(velX) / (runSpeed*0.55)).clamp(0.7, 1);
 				onFloor = false;
 			}
-			else if (!onFloor && collidesAt(xscale*2, 0) && velY >= -0.45) {
+			else if (huggingWall && velY >= -0.45) {
 				velX = -xscale * 3.75;
 				velY = jumpSpeed * 0.735;
 				xscale *= -1;
@@ -213,8 +219,12 @@ class Player {
 		}
 		
 		if (!onFloor) {
+			final activeGrav = huggingWall? gravity * 0.1 : gravity;
 			externalVelY += gravity;
 			velY += gravity;
+			if (huggingWall && velY > 4) {
+				velY = 1.15;
+			}
 		}
 		moveVelY();
 
@@ -228,6 +238,18 @@ class Player {
 
 		if (_hub.carbons.deathZones.collideHitbox(mask)) {
 			respawn();
+		}
+
+		handleCheckpoints();
+	}
+
+	function handleCheckpoints() {
+		if (mask.collide(_hub.carbons.checkpoints)) {
+			final chkpt = _hub.carbons.checkpoints.getCollidingMask(mask);
+			final hbox = cast(chkpt, Hitbox);
+			_hub.carbons.checkpoints.remove(chkpt);
+			spawnX = hbox.x;
+			spawnY = hbox.y + hbox.height - mask.height + 8;
 		}
 	}
 

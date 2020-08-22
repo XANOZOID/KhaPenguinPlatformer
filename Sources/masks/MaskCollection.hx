@@ -12,4 +12,7 @@ class MaskCollection extends Mask {
 
     public function update()
         throw "not implemented";
+
+    public function getCollidingMask(other:Mask):Mask
+        throw "not implemented";
 }

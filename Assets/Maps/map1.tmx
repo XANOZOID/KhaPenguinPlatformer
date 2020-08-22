@@ -462,17 +462,17 @@
   <object id="102" x="176" y="32" width="16" height="16"/>
   <object id="103" x="208" y="16" width="16" height="32"/>
  </objectgroup>
- <objectgroup color="#ff0000" id="9" name="death" visible="0">
-  <object id="74" x="-574" y="256" width="1084" height="114"/>
+ <objectgroup color="#ff0000" id="9" name="death">
+  <object id="74" x="-752" y="256" width="1262" height="114"/>
   <object id="75" x="466" y="290" width="348" height="158"/>
-  <object id="76" x="1553" y="289" width="466" height="154"/>
+  <object id="76" x="1552" y="336" width="384" height="154"/>
  </objectgroup>
  <objectgroup id="6" name="ladders">
   <object id="56" template="templates/ladder.tx" x="560" y="0"/>
-  <object id="57" template="templates/ladder.tx" x="928" y="176" width="16" height="176"/>
+  <object id="57" template="templates/ladder.tx" type="Ladder" x="928" y="176" width="16" height="176"/>
  </objectgroup>
  <objectgroup color="#5ce353" id="7" name="jump_through">
-  <object id="58" x="832" y="145" width="46" height="4"/>
+  <object id="58" x="832" y="144" width="48" height="4"/>
   <object id="60" x="528" y="0" width="79" height="4"/>
   <object id="64" x="592" y="149" width="16" height="6"/>
   <object id="65" x="592" y="133" width="16" height="6"/>
@@ -490,7 +490,7 @@
   <object id="71" name="player_start" x="-240" y="44">
    <point/>
   </object>
-  <object id="95" type="checkpoint" x="720" y="128" width="16" height="48"/>
+  <object id="95" type="Checkpoint" x="720" y="128" width="16" height="48"/>
   <object id="117" type="Spring" x="528" y="112" width="16" height="16"/>
   <object id="119" type="Spring" x="688" y="224" width="16" height="16"/>
  </objectgroup>
