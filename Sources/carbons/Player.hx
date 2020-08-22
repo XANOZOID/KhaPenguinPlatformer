@@ -202,6 +202,11 @@ class Player {
 				velY = jumpSpeed * (Math.abs(velX) / (runSpeed*0.55)).clamp(0.7, 1);
 				onFloor = false;
 			}
+			else if (!onFloor && collidesAt(xscale*2, 0) && velY >= -0.45) {
+				velX = -xscale * 3.75;
+				velY = jumpSpeed * 0.735;
+				xscale *= -1;
+			}
 		} 
 		else if (!onFloor && velY < 0 && externalVelY >= 0) {
 			velY *= 0.675;
