@@ -5,22 +5,32 @@ import graphics.*;
 
 class Sprites {
 	static public function playerStill():Sprite 
-		return playerSprite(0);
+		return playerSprite(0, 0, .79);
 	static public function playerJump():Sprite 
-		return playerSprite(4);
+		return playerSprite(3, 3);
 	static public function playerFall():Sprite 
-		return playerSprite(3);
+		return playerSprite(3, 5);
+	static public function playerWallSlide():Sprite
+		return playerSprite(2, 3);
 
 	static public function playerWalk(speed:Float):Animation return {
-		texture: Assets.images.Maps_monochrome_tilemap_transparent,
-		frameX: 16 + 1, frameY: 256,
+		texture: Assets.images.penguin,
+		frameX: 0, frameY: 16 * 2,
 		frameW: 16, frameH: 16,
-		originX: 0.5, originY: 0.75,
-		separationY: 1,
-		separationX: 1,
-		frames:  2,
-		columns: 2,
+		originX: 0.5, originY: 0.79,
+		separationY: 0,
+		separationX: 0,
+		frames:  6,
+		columns: 3,
 		playSpeed: speed
+	};
+
+	static function playerSprite(cellY, cellX, ogY = 0.75):Sprite return {
+		texture: Assets.images.penguin,
+		frameX: cellX * 16, 
+		frameY: cellY * 16,
+		frameW: 16, frameH: 16,
+		originX: 0.5, originY: ogY,
 	};
 
 	static public function obstacleSpring(speed:Float):Animation return {
@@ -33,11 +43,4 @@ class Sprites {
 		columns: 3,
 		playSpeed: speed
 	}
-
-	static function playerSprite(cellX):Sprite return {
-		texture: Assets.images.Maps_monochrome_tilemap_transparent,
-		frameX: cellX * 16 + cellX, frameY: 256,
-		frameW: 16, frameH: 16,
-		originX: 0.5, originY: 0.75,
-	};
 }

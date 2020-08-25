@@ -43,6 +43,7 @@ class Player {
 	final sprStand:Sprite;
 	final sprFall:Sprite;
 	final sprJump:Sprite;
+	final sprWallSlide:Sprite;
 	var movekey:KeyCode = null;
 	var jump = false;
 	var xscale = 1;
@@ -61,9 +62,10 @@ class Player {
 	public function new(hub, x, y) {
 		_hub = hub;
 		sprStand = sprite = Sprites.playerStill();
-		sprWalk = Sprites.playerWalk(0.19);
+		sprWalk = Sprites.playerWalk(0.30);
 		sprFall = Sprites.playerFall();
 		sprJump = Sprites.playerJump();
+		sprWallSlide = Sprites.playerWallSlide();
 		mask = new Hitbox(cast x - 7, cast y - 8, 14, 11);
 		spawnX = x;
 		spawnY = y;
@@ -222,15 +224,18 @@ class Player {
 			final activeGrav = huggingWall? gravity * 0.1 : gravity;
 			externalVelY += gravity;
 			velY += gravity;
-			if (huggingWall && velY > 4) {
-				velY = 1.15;
+			if (huggingWall && velY > 1.5) {
+				velY = 0.65;
 			}
 		}
 		moveVelY();
 
 		if (!onFloor) {
 			if (velY > 0 ) {
-				sprite = sprFall;
+				if (huggingWall)
+					sprite = sprWallSlide;
+				else
+					sprite = sprFall;
 			} else {
 				sprite = sprJump;
 			}
