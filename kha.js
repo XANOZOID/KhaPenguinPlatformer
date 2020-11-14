@@ -991,6 +991,7 @@ engine_Hub.prototype = {
 	}
 	,onDraw: function(g2) {
 		var scale = 3.5;
+		var $window = kha_Window.get(0);
 		g2.begin(true,this.context.mapColor);
 		var trans__00 = scale;
 		var trans__10 = 0;
@@ -1016,7 +1017,7 @@ engine_Hub.prototype = {
 		_this._12 = trans__12;
 		_this._22 = trans__22;
 		g2.setTransformation(g2.transformations[g2.transformationIndex]);
-		g2.pushTranslation(Math.floor(-this.get_player().get_x() * scale + 512.),Math.floor(-this.get_player().get_y() * scale + 384.));
+		g2.pushTranslation(Math.floor(-this.get_player().get_x() * scale + $window.get_width() / 2),Math.floor(-this.get_player().get_y() * scale + $window.get_height() / 2));
 		this.carbons.tilemapRenderer.draw(g2);
 		var _g = 0;
 		var _g1 = this.carbons.springs;
@@ -1044,6 +1045,7 @@ engine_Hub.prototype = {
 	}
 	,evDraw: function(g2) {
 		var scale = 3.5;
+		var $window = kha_Window.get(0);
 		g2.begin(true,this.context.mapColor);
 		var trans__00 = scale;
 		var trans__10 = 0;
@@ -1069,7 +1071,7 @@ engine_Hub.prototype = {
 		_this._12 = trans__12;
 		_this._22 = trans__22;
 		g2.setTransformation(g2.transformations[g2.transformationIndex]);
-		g2.pushTranslation(Math.floor(-this.get_player().get_x() * scale + 512.),Math.floor(-this.get_player().get_y() * scale + 384.));
+		g2.pushTranslation(Math.floor(-this.get_player().get_x() * scale + $window.get_width() / 2),Math.floor(-this.get_player().get_y() * scale + $window.get_height() / 2));
 		this.carbons.tilemapRenderer.draw(g2);
 		var _g = 0;
 		var _g1 = this.carbons.springs;
