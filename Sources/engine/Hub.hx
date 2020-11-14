@@ -1,5 +1,6 @@
 package engine;
 
+import kha.Window;
 import haxe.macro.Context;
 import carbons.Player;
 import kha.graphics2.Graphics;
@@ -51,12 +52,15 @@ final class Hub {
 
     public function evDraw(g2:Graphics) {
         final scale = 3.5;
+        final window = Window.get(0);
+
 		g2.begin(true, context.mapColor);
 		
-		g2.pushTransformation(FastMatrix3.scale(scale, scale));
-		g2.pushTranslation( 
-			Math.floor( (-player.x)*scale + 1024/2), 
-			Math.floor( (-player.y)*scale + 768/2)
+        g2.pushTransformation(FastMatrix3.scale(scale, scale));
+        
+        g2.pushTranslation( 
+			Math.floor( (-player.x)*scale + window.width/2), 
+			Math.floor( (-player.y)*scale + window.height/2)
 		);
         
         // for (polygon in carbons.polygons) {
