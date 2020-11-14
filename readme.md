@@ -6,4 +6,8 @@ Personal project . . .
 - The collision logic, inside of Sources/Masks/ is licensed under MIT
 
 
+## [Play it here!](https://xanozoid.github.io/KhaPenguinPlatformer/) 
+https://xanozoid.github.io/KhaPenguinPlatformer/
+
+
 ![](./github/platpeng.gif)
