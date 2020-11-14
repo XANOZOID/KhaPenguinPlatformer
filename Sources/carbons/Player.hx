@@ -1,6 +1,5 @@
 package carbons;
 
-import js.html.rtc.SignalingState;
 import masks.Mask.MaskExtension;
 import kha.graphics2.Graphics;
 import kha.input.KeyCode;
@@ -22,7 +21,11 @@ class Player {
 	static final gravity = 0.325;
 	static final jumpSpeed = -6.85;
 	static final runSpeed = 5.9;
-	static final keyJump = KeyCode.Space;
+	
+	static final keyJump = [KeyCode.Space, KeyCode.W, KeyCode.Up];
+	static final keyRight = [KeyCode.Right, KeyCode.D];
+	static final keyLeft = [KeyCode.Left, KeyCode.A];
+
 	static final weight:Float = 1;
 	static final drag:Float = .85;
 	static final accelX = 0.5;
@@ -192,11 +195,12 @@ class Player {
 	}
 
 	public function update() {
-		switch (movekey) {
-			case A:  moveX(-1);
-			case D:  moveX(1);
-			default: noMove();
-		}
+		if (movekey != null) {
+			if (isOneOf(movekey, keyLeft)) 
+				moveX(-1);
+			else if (isOneOf(movekey, keyRight))
+				moveX(1);
+		} else { noMove(); }
 
 		var onFloor = vertCollidesAt(0, 1);
 		var huggingWall = false;
@@ -265,10 +269,17 @@ class Player {
 		sprite.drawScaled(g2, x, y, xscale, 1);
 	}
 
+	function isOneOf<A>(val:A, oneOf:Array<A>) {
+		for (compare in oneOf) {
+			if (val == compare) return true;
+		}
+		return false;
+	}
+
 	function hookInput() {
 		Keyboard.get(0).notify(
 			function onDown(k) {
-				if (k == keyJump) {
+				if (isOneOf(k, keyJump)) {
 					jump = true;
 					return;
 				}
@@ -278,14 +289,13 @@ class Player {
 				}
 
 				movekey = switch(k) {
-					case KeyCode.A: KeyCode.A;
-					case KeyCode.D: KeyCode.D;
+					case KeyCode.A, KeyCode.D, KeyCode.Left, KeyCode.Right: k;
 					default: movekey;
 				};
 			},
 			function onUp(k) {
 				if (k == movekey) { movekey = null; }
-				if (k == keyJump) { jump = false; }
+				if (isOneOf(k, keyJump)) { jump = false; }
 			}
 		);
 	}
