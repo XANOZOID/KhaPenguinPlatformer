@@ -781,14 +781,13 @@ carbons_Player.prototype = {
 		this.moveVelX();
 	}
 	,update: function() {
-		switch(this.movekey) {
-		case 65:
-			this.moveX(-1);
-			break;
-		case 68:
-			this.moveX(1);
-			break;
-		default:
+		if(this.movekey != null) {
+			if(this.isOneOf(this.movekey,carbons_Player.keyLeft)) {
+				this.moveX(-1);
+			} else if(this.isOneOf(this.movekey,carbons_Player.keyRight)) {
+				this.moveX(1);
+			}
+		} else {
 			this.noMove();
 		}
 		var onFloor = this.vertCollidesAt(0,1);
@@ -848,10 +847,21 @@ carbons_Player.prototype = {
 		g2.set_color(-1);
 		this.sprite.drawScaled(g2,this.get_x(),this.get_y(),this.xscale,1);
 	}
+	,isOneOf: function(val,oneOf) {
+		var _g = 0;
+		while(_g < oneOf.length) {
+			var compare = oneOf[_g];
+			++_g;
+			if(val == compare) {
+				return true;
+			}
+		}
+		return false;
+	}
 	,hookInput: function() {
 		var _gthis = this;
 		var onDown = function(k) {
-			if(k == carbons_Player.keyJump) {
+			if(_gthis.isOneOf(k,carbons_Player.keyJump)) {
 				_gthis.jump = true;
 				return;
 			}
@@ -860,11 +870,8 @@ carbons_Player.prototype = {
 			}
 			var onDown1;
 			switch(k) {
-			case 65:
-				onDown1 = 65;
-				break;
-			case 68:
-				onDown1 = 68;
+			case 37:case 39:case 65:case 68:
+				onDown1 = k;
 				break;
 			default:
 				onDown1 = _gthis.movekey;
@@ -875,7 +882,7 @@ carbons_Player.prototype = {
 			if(k1 == _gthis.movekey) {
 				_gthis.movekey = null;
 			}
-			if(k1 == carbons_Player.keyJump) {
+			if(_gthis.isOneOf(k1,carbons_Player.keyJump)) {
 				_gthis.jump = false;
 			}
 		};
@@ -30033,7 +30040,9 @@ Xml.Document = 6;
 carbons_Player.gravity = 0.325;
 carbons_Player.jumpSpeed = -6.85;
 carbons_Player.runSpeed = 5.9;
-carbons_Player.keyJump = 32;
+carbons_Player.keyJump = [32,87,38];
+carbons_Player.keyRight = [39,68];
+carbons_Player.keyLeft = [37,65];
 carbons_Player.weight = 1;
 carbons_Player.drag = .85;
 carbons_Player.accelX = 0.5;
